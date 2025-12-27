@@ -25,38 +25,29 @@ function startMonitoring() {
   checkEmailAndUpdateButton();
 }
 
+function findConfirmButton() {
+  for (const btn of document.querySelectorAll('button')) {
+    const text = btn.textContent.trim();
+    if (text === 'Confirm merge') {
+      return btn;
+    }
+  }
+  return null;
+}
+
 function checkEmailAndUpdateButton() {
   const emailSelect = document.querySelector('select[aria-label="Select commit author email"]');
   if (!emailSelect) {
     return;
   }
 
-  let confirmButton = null;
-  const allButtons = document.querySelectorAll('button');
-
-  for (const btn of allButtons) {
-    const text = btn.textContent.trim();
-    if (text === 'Confirm merge') {
-      confirmButton = btn;
-      break;
-    }
-  }
-
+  const confirmButton = findConfirmButton();
   if (!confirmButton) {
     return;
   }
 
   const selectedEmail = emailSelect.value;
-  if (!allowedEmail) {
-    confirmButton.disabled = false;
-    confirmButton.style.opacity = '1';
-    confirmButton.style.cursor = 'pointer';
-    confirmButton.removeAttribute('title');
-    return;
-  }
-
-  const isValid = selectedEmail === allowedEmail;
-  if (isValid) {
+  if (!allowedEmail || selectedEmail === allowedEmail) {
     confirmButton.disabled = false;
     confirmButton.style.opacity = '1';
     confirmButton.style.cursor = 'pointer';
