@@ -1,13 +1,13 @@
-let emailPattern = '';
+let allowedEmail = '';
 
-chrome.storage.sync.get(['emailPattern'], (result) => {
-  emailPattern = result.emailPattern || '';
+chrome.storage.sync.get(['allowedEmail'], (result) => {
+  allowedEmail = result.allowedEmail || '';
   startMonitoring();
 });
 
 chrome.storage.onChanged.addListener((changes, namespace) => {
-  if (namespace === 'sync' && changes.emailPattern) {
-    emailPattern = changes.emailPattern.newValue || '';
+  if (namespace === 'sync' && changes.allowedEmail) {
+    allowedEmail = changes.allowedEmail.newValue || '';
     checkEmailAndUpdateButton();
   }
 });
@@ -47,7 +47,7 @@ function checkEmailAndUpdateButton() {
   }
 
   const selectedEmail = emailSelect.value;
-  if (!emailPattern) {
+  if (!allowedEmail) {
     confirmButton.disabled = false;
     confirmButton.style.opacity = '1';
     confirmButton.style.cursor = 'pointer';
@@ -55,18 +55,7 @@ function checkEmailAndUpdateButton() {
     return;
   }
 
-  let regex;
-  try {
-    regex = new RegExp(emailPattern);
-  } catch (e) {
-    confirmButton.disabled = false;
-    confirmButton.style.opacity = '1';
-    confirmButton.style.cursor = 'pointer';
-    confirmButton.removeAttribute('title');
-    return;
-  }
-
-  const isValid = regex.test(selectedEmail);
+  const isValid = selectedEmail === allowedEmail;
   if (isValid) {
     confirmButton.disabled = false;
     confirmButton.style.opacity = '1';
@@ -76,7 +65,7 @@ function checkEmailAndUpdateButton() {
     confirmButton.disabled = true;
     confirmButton.style.opacity = '0.5';
     confirmButton.style.cursor = 'not-allowed';
-    confirmButton.setAttribute('title', `Email does not match pattern: ${emailPattern}`);
+    confirmButton.setAttribute('title', `Email must be: ${allowedEmail}`);
   }
 }
 

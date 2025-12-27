@@ -88,17 +88,15 @@
   <h1>GitHub PR Merge Email Check Settings</h1>
 
   <div class="form-group">
-    <label for="emailPattern">Email Address Pattern (Regular Expression)</label>
-    <input type="text" id="emailPattern" placeholder="e.g., .*@example\.com$">
+    <label for="allowedEmail">Allowed Email Address</label>
+    <input type="email" id="allowedEmail" placeholder="e.g., user@example.com">
     <div class="help-text">
-      Enter a regular expression pattern to validate commit email addresses.
-      The "Confirm merge" button will be disabled if the selected email doesn't match this pattern.
+      Enter the email address that is allowed for merge commits.
+      The "Confirm merge" button will be disabled if the selected email doesn't match this address exactly.
     </div>
     <div class="example">
-      <strong>Examples:</strong><br>
-      • <code>.*@example\.com$</code> - Matches any email ending with @example.com<br>
-      • <code>^(user1|user2)@.*</code> - Matches emails starting with user1@ or user2@<br>
-      • <code>.*@(company1|company2)\.com$</code> - Matches emails from company1.com or company2.com
+      <strong>Example:</strong><br>
+      • <code>user@company.com</code> - Only allows merges with this exact email address
     </div>
   </div>
 

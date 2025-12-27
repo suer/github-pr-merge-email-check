@@ -1,12 +1,12 @@
 # GitHub PR Merge Email Check
 
-A Chrome extension that validates commit email addresses against a configurable regular expression pattern before allowing Pull Request merges on GitHub.
+A Chrome extension that validates commit email addresses against a specified email address before allowing Pull Request merges on GitHub.
 
 ## Features
 
 - Monitors GitHub Pull Request merge confirmation screens
-- Validates the selected commit email against a custom regex pattern
-- Disables the "Confirm merge" button when email doesn't match the pattern
+- Validates the selected commit email against a configured allowed email address
+- Disables the "Confirm merge" button when email doesn't match exactly
 - Easy configuration through extension options page
 
 ## Installation
@@ -20,31 +20,20 @@ A Chrome extension that validates commit email addresses against a configurable 
 ## Usage
 
 1. Click the extension icon and select "Options" (or right-click the icon and choose "Options")
-2. Enter a regular expression pattern for valid email addresses
+2. Enter the allowed email address for merge commits
 3. Click "Save Settings"
 4. Navigate to any GitHub Pull Request
 5. Click "Merge pull request" and enter commit details
-6. The "Confirm merge" button will be disabled if the selected commit email doesn't match your pattern
+6. The "Confirm merge" button will be disabled if the selected commit email doesn't match your configured email address exactly
 
-## Configuration Examples
+## Configuration Example
 
-### Match specific domain
+Enter the exact email address you want to allow:
 ```
-.*@example\.com$
+user@company.com
 ```
-Matches any email ending with `@example.com`
 
-### Match multiple users
-```
-^(user1|user2)@.*
-```
-Matches emails starting with `user1@` or `user2@`
-
-### Match multiple domains
-```
-.*@(company1|company2)\.com$
-```
-Matches emails from `company1.com` or `company2.com`
+Only merge commits with this exact email address will be allowed.
 
 ## Development
 
@@ -63,8 +52,8 @@ Matches emails from `company1.com` or `company2.com`
 
 1. The content script (`content.js`) runs on all GitHub PR pages
 2. It monitors the DOM for the merge confirmation form
-3. When the email selector changes, it validates against the stored regex pattern
-4. If validation fails, it disables the confirm button and adds visual feedback
+3. When the email selector changes, it validates against the configured allowed email address
+4. If validation fails (email doesn't match exactly), it disables the confirm button and adds visual feedback
 
 ## License
 
